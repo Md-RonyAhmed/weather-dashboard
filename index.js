@@ -3,6 +3,11 @@ const temperature = document.getElementById("temp");
 const weatherIcon = document.getElementById("weather-icon");
 const dateTime = document.getElementById("date-time");
 const title = document.getElementById("title");
+const maxTemperature = document.getElementById("max-temp");
+const minTemperature = document.getElementById("min-temp");
+const humidity = document.getElementById("humidity");
+const cloudiness = document.getElementById("clouds");
+const windSpeed = document.getElementById("wind");
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("btn");
 
@@ -42,8 +47,14 @@ const getWeather = async (info) => {
        </p>
     `;
 
+    maxTemperature.innerText = `${Math.round(data?.main?.temp_max)}°c`;
+    minTemperature.innerText = `${Math.round(data?.main?.temp_min)}°c`;
+    humidity.innerText = `${data?.main?.humidity}%`;
+    cloudiness.innerText = `${data?.clouds?.all}%`;
+    windSpeed.innerText = `${data?.wind?.speed} m/s`;
+
     if (data?.weather[0]?.main === "Haze") {
-      weatherIcon.src = "./assets/haze.svg";
+      weatherIcon.src = "/assets/haze.svg";
     }
     if (data?.weather[0]?.main === "Fog") {
       weatherIcon.src = "./assets/haze.svg";
