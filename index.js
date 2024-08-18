@@ -13,6 +13,9 @@ const searchBtn = document.getElementById("btn");
 
 searchBtn.addEventListener("click", () => {
   const city = searchInput.value;
+  if (city === "") {
+    return;
+  }
   getWeather({ city });
   searchInput.value = "";
 });
@@ -54,7 +57,7 @@ const getWeather = async (info) => {
     windSpeed.innerText = `${data?.wind?.speed} m/s`;
 
     if (data?.weather[0]?.main === "Haze") {
-      weatherIcon.src = "/assets/haze.svg";
+      weatherIcon.src = "./assets/haze.svg";
     }
     if (data?.weather[0]?.main === "Fog") {
       weatherIcon.src = "./assets/haze.svg";
