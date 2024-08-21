@@ -1,18 +1,21 @@
 // DOM Elements
 const elements = {
-  cityName: document.getElementById("city-name"),
-  temperature: document.getElementById("temp"),
-  weatherIcon: document.getElementById("weather-icon"),
-  dateTime: document.getElementById("date-time"),
-  title: document.getElementById("title"),
-  maxTemperature: document.getElementById("max-temp"),
-  minTemperature: document.getElementById("min-temp"),
-  humidity: document.getElementById("humidity"),
-  cloudiness: document.getElementById("clouds"),
-  windSpeed: document.getElementById("wind"),
   formData: document.getElementById("form-data"),
   loadingElement: document.getElementById("loading"),
+  weatherIconElement: document.getElementById("weather-icon"),
 };
+
+// Function to update elements dynamically
+function updateElement(id, content, isHtml = false) {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  if (isHtml) {
+    element.innerHTML = content;
+  } else {
+    element.innerText = content;
+  }
+}
 
 // Weather API Configuration
 const API_KEY = "4bb0324851d437735c61dac4feb4c5e2";
@@ -51,6 +54,7 @@ const getWeather = async (info) => {
       ? `${URL}?q=${city}&appid=${API_KEY}&units=metric`
       : `${URL}?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`;
     const data = await fetchData(fetchURL);
+    console.log(data);
     updateWeatherUI(data);
   } catch (error) {
     console.error("Error fetching weather data:", error.message);
@@ -68,16 +72,19 @@ const fetchData = async (url) => {
 
 // Update UI with Weather Data
 const updateWeatherUI = (data) => {
-  elements.cityName.innerText = data?.name === "Sāmāir" ? "Dhaka" : data?.name;
-  elements.temperature.innerText = `${Math.round(data?.main?.temp)}°c`;
-  elements.dateTime.innerHTML = formatDateTime(data?.dt);
-  elements.title.innerHTML = formatWeatherTitle(data?.weather[0]?.main);
-  elements.maxTemperature.innerText = `${Math.round(data?.main?.temp_max)}°c`;
-  elements.minTemperature.innerText = `${Math.round(data?.main?.temp_min)}°c`;
-  elements.humidity.innerText = `${data?.main?.humidity}%`;
-  elements.cloudiness.innerText = `${data?.clouds?.all}%`;
-  elements.windSpeed.innerText = `${data?.wind?.speed} m/s`;
-  elements.weatherIcon.src =
+  // Updating the weather UI using the dynamic function
+  updateElement("city-name", data?.name === "Sāmāir" ? "Dhaka" : data?.name);
+  updateElement("temp", `${Math.round(data?.main?.temp)}°c`);
+  updateElement("date-time", formatDateTime(data?.dt), true); // using true for isHtml
+  updateElement("title", formatWeatherTitle(data?.weather[0]?.main), true); // using true for isHtml
+  updateElement("max-temp", `${Math.round(data?.main?.temp_max)}°c`);
+  updateElement("min-temp", `${Math.round(data?.main?.temp_min)}°c`);
+  updateElement("humidity", `${data?.main?.humidity}%`);
+  updateElement("clouds", `${data?.clouds?.all}%`);
+  updateElement("wind", `${data?.wind?.speed} m/s`);
+
+  // Set the src attribute of the weather-icon element
+  elements.weatherIconElement.src =
     weatherIcons[data?.weather[0]?.main] || "/assets/cloud.svg";
 };
 
