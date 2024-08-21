@@ -34,6 +34,19 @@ const weatherIcons = {
   Drizzle: "/assets/drizzle-svgrepo-com.svg",
 };
 
+// Backgrounds Mapping
+const weatherBackgrounds = {
+  Haze: "/assets/backgrounds/mist.jpeg",
+  Fog: "/assets/backgrounds/mist.jpeg",
+  Mist: "/assets/backgrounds/mist.jpeg",
+  Clouds: "/assets/backgrounds/clouds.png",
+  Clear: "/assets/backgrounds/sunny.jpg",
+  Rain: "/assets/backgrounds/rainy-day.jpg",
+  Thunderstorm: "/assets/backgrounds/thunderstorm.jpg",
+  Snow: "/assets/backgrounds/snow.jpg",
+  Drizzle: "/assets/backgrounds/shower-rain.jpg",
+};
+
 // Event Listener for Search Button
 elements.formData.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -86,6 +99,12 @@ const updateWeatherUI = (data) => {
   // Set the src attribute of the weather-icon element
   elements.weatherIconElement.src =
     weatherIcons[data?.weather[0]?.main] || "/assets/cloud.svg";
+
+  // Set the background image based on the weather condition
+  const weatherCondition = data?.weather[0]?.main;
+  document.body.style.backgroundImage = `url('${
+    weatherBackgrounds[weatherCondition] || "/assets/backgrounds/clear-sky.jpg"
+  }')`;
 };
 
 // Toggle Loader Visibility
