@@ -10,8 +10,7 @@ const elements = {
   humidity: document.getElementById("humidity"),
   cloudiness: document.getElementById("clouds"),
   windSpeed: document.getElementById("wind"),
-  searchInput: document.getElementById("search-input"),
-  searchBtn: document.getElementById("btn"),
+  formData: document.getElementById("form-data"),
   loadingElement: document.getElementById("loading"),
 };
 
@@ -33,11 +32,12 @@ const weatherIcons = {
 };
 
 // Event Listener for Search Button
-elements.searchBtn.addEventListener("click", () => {
-  const city = elements.searchInput.value.trim();
+elements.formData.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const city = e.target["search-input"].value.trim();
   if (city) {
     getWeather({ city });
-    elements.searchInput.value = "";
+    e.target["search-input"].value = "";
   }
 });
 
